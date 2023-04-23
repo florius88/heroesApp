@@ -8,15 +8,6 @@
   ],
   "heroes": [
     {
-      "id": "dc-batman",
-      "superhero": "Batman",
-      "publisher": "DC Comics",
-      "alter_ego": "Bruce Wayne",
-      "first_appearance": "Detective Comics #27",
-      "characters": "Bruce Wayne",
-      "alt_img": "https://www.geekmi.news/__export/1604437633818/sites/debate/img/2020/11/03/batman.jpg_423682103.jpg"
-    },
-    {
       "id": "dc-superman",
       "superhero": "Superman",
       "publisher": "DC Comics",
@@ -63,14 +54,6 @@
       "alter_ego": "J\"onn J\"onzz",
       "first_appearance": "Detective Comics #225",
       "characters": "Martian Manhunter"
-    },
-    {
-      "id": "dc-robin",
-      "superhero": "Robin/Nightwing",
-      "publisher": "DC Comics",
-      "alter_ego": "Dick Grayson",
-      "first_appearance": "Detective Comics #38",
-      "characters": "Dick Grayson"
     },
     {
       "id": "dc-blue",

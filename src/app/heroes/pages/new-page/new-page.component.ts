@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { switchMap } from 'rxjs';
+import { filter, switchMap, tap } from 'rxjs';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
@@ -93,13 +93,34 @@ export class NewPageComponent implements OnInit {
       data: this.heroForm.value,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed()
+      .pipe(
+        // Filtramos el resultado positivo
+        filter((result: boolean) => result),
+        /* lo anterior es igual que:
+        filter( result => result === true ),
+        */
+        // Eliminamos
+        switchMap(() => this.heroService.deleteHeroBtId(this.currentHero.id)),
+        /* tap(wasDeleted => console.log({ wasDeleted })) */
+        // Si eliminalo dejamos pasar
+        filter((wasDeleted: boolean) => wasDeleted)
+      )
+      .subscribe(() => {
+        /* console.log(result) */
+        this.router.navigate([`/heroes`])
+      });
+
+      /* Esta es la forma 'fea' de hacerlo
+      dialogRef.afterClosed().subscribe(result => {
       if (!result) return;
 
-      this.heroService.deleteHeroBtId(this.currentHero.id);
-      this.router.navigate([`/heroes`])
-      
+      this.heroService.deleteHeroBtId(this.currentHero.id)
+        .subscribe(wasDeleted => {
+          if (wasDeleted) this.router.navigate([`/heroes`])
+        });
     });
+    */
   }
 
   showSnackbar(message: string): void {
