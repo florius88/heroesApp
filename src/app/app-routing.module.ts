@@ -1,16 +1,27 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { Error404PageComponent } from './shared/pages/error404-page/error404-page.component';
+/* import { AuthDeprecatedGuard } from './auth/guards/auth-deprecated.guard'; */
+import { canActivateAuthGuard, canMatchAuthGuard } from './auth/guards/auth.guard';
+import { canActivatePublicGuard, canMatchPublicGuard } from './auth/guards/public.guard';
 
 // localhost:4200/
 const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then( m => m.AuthModule ),
+    canActivate: [canActivatePublicGuard], 
+    canMatch: [canMatchPublicGuard]
   },
   {
     path: 'heroes',
     loadChildren: () => import('./heroes/heroes.module').then( m => m.HeroesModule ),
+    /* Deprecated
+    canActivate: [ AuthDeprecatedGuard ],
+    canMatch: [ AuthDeprecatedGuard ], */
+    canActivate: [canActivateAuthGuard], 
+    canMatch: [canMatchAuthGuard]
   },
   {
     path: '404',
